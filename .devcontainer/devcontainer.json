@@ -1,0 +1,22 @@
+{
+	"name": "Ubuntu",
+	"image": "mcr.microsoft.com/devcontainers/base:jammy",
+
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"editor.minimap.autohide": true,
+				"editor.minimap.enabled": false,
+				"workbench.colorTheme": "GitHub Dark Colorblind (Beta)"
+			},
+			"extensions": [
+				"GitHub.copilot"
+			]
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers-extra/features/node-asdf:0": {},
+		"ghcr.io/devcontainers/features/python:1": {}
+	}
+
+}
