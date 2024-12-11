@@ -9,7 +9,7 @@ jobs:
       - name: Show OS
         run: |
           echo "I'm running on an Ubuntu runner."
-          echo "Runner: ${{ runner.name }} on ${{ runner.os }}"
+          echo "Runner: ${{ runner.os }} on ${{ runner.arch }}"
   windows-echo:
     runs-on: windows-latest
     steps:
@@ -17,4 +17,4 @@ jobs:
         shell: bash
         run: |
           echo "I'm running on a Windows runner."
-          echo "Runner: ${{ runner.name }} on $({ runner.os }}"
+          echo "Runner: ${{ runner.os }} on ${{ runner.arch }}"
