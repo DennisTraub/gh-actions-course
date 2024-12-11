@@ -18,3 +18,11 @@ jobs:
         run: |
           echo "I'm running on a Windows runner."
           echo "Runner: ${{ runner.os }} on ${{ runner.arch }}"
+  mac-echo:
+    runs-on: macos-latest
+    steps:
+      - name: Show OS
+        shell: bash
+        run: |
+          echo "I'm running on a Mac runner."
+          echo "Runner: ${{ runner.os }} on ${{ runner.arch }}"
