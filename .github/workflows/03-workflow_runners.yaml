@@ -9,4 +9,12 @@ jobs:
       - name: Show OS
         run: |
           echo "I'm running on an Ubuntu runner."
-          echo "Runner OS: ${{ runner.os }} with ${RUNNER_OS}"
+          echo "Runner: ${{ runner.name }} on $({ runner.os }}"
+  windows-echo:
+    runs-on: windows-latest
+    steps:
+      - name: Show OS
+        shell: bash
+        run: |
+          echo "I'm running on a Windows runner."
+          echo "Runner: ${{ runner.name }} on $({ runner.os }}"
