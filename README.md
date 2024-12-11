@@ -1,1 +1,1 @@
-# gh-actions-course
+# GitHub Actions Masterclass - Exercise Repository
