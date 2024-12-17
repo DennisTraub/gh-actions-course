@@ -16,5 +16,5 @@ jobs:
           echo "Run ID: ${{ github.run_id }}"
           echo "Run number: ${{ github.run_number }}" 
       - name: Display info from Variables context
-        runs: |
+        run: |
           echo "Variables: ${{ toJson(variables) }}"
