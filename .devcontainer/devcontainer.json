@@ -12,7 +12,8 @@
 			},
 			"extensions": [
 				"GitHub.copilot",
-				"github.vscode-github-actions"
+				"github.vscode-github-actions",
+				"isudox.vscode-jetbrains-keybindings"
 			]
 		}
 	},
