@@ -18,3 +18,5 @@ jobs:
       - name: Display info from Variables context
         run: |
           echo "Variables: ${{ toJson(vars) }}"
+          echo "MY_TEST_VARIABLE: ${{ vars.MY_TEST_VARIABLE }}"
+          `
