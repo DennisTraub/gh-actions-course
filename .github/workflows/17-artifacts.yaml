@@ -1,0 +1,46 @@
+name: 17 - Artifacts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 17-artifacts/my-app
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+      - name: Check cached dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: 17-artifacts/my-app/node_modules
+          key: node-modules-${{ hashFiles('17-artifacts/my-app/package-lock.json') }}
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-app
+          path: 17-artifacts/my-app/
+    
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download production artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: my-app
+          path: .next
+      - name: Show folders
+        run: ls -R
