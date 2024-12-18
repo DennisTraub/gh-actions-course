@@ -1,0 +1,55 @@
+name: 10 - Execution Flow
+
+on: 
+  workflow_dispatch:
+    inputs:
+      pass-unit-tests:
+        type: boolean
+        description: 'Define wether unit tests will pass'
+        default: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lint
+        run: echo "Linting the code"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build
+        run: echo "Building the code"
+
+  unit-test:
+    runs-on: ubuntu-latest
+    needs: [lint, build]
+    continue-on-error: true
+    steps:
+      - name: Unit Test
+        run: echo "Running unit tests"
+      - name: Failing tests
+        if: ${{ !inputs.pass-unit-tests }}
+        run: |
+          echo "Tests failed"
+          exit 1
+
+  deploy-test-env:
+    runs-on: ubuntu-latest
+    needs: unit-test
+    steps:
+      - name: Deploy Test Environment
+        run: echo "Deploying test environment"
+
+  e2e-test:
+    runs-on: ubuntu-latest
+    needs: deploy-test-env
+    steps:
+      - name: E2E Test
+        run: echo "Running E2E tests"
+
+  deploy-prod-env:
+    runs-on: ubuntu-latest
+    needs: e2e-test
+    steps:
+      - name: Deploy Prod Environment
+        run: echo "Deploying prod environment"
