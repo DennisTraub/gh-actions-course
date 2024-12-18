@@ -9,8 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print PR title
-        run: echo "PR title: ${{ github.event.pull_request.title }}"
-
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "PR title: $PR_TITLE"
       - name: Is a bug fix?
         if: ${{ !cancelled() && contains(github.event.pull_request.title, 'Fix:') }}
         run: |
