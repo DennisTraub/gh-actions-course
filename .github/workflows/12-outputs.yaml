@@ -2,18 +2,36 @@ name: 12 - Using Outputs
 
 on: 
   workflow_dispatch:
+    inputs:
+      build-status:
+        type: choice
+        options:
+          - success
+          - failure
+        default: success
 
 jobs:
-  welcome:
+  build:
+    runs-on: ubuntu-latest
     outputs:
-      NAME: ${{ steps.step1.outputs.NAME }}
-    runs-on: ubuntu-latest
+      STATUS: ${{ steps.output.outputs.status }}
     steps:
-      - id: step1
-        run: echo "NAME=Dennis" >> "$GITHUB_OUTPUT"
-  goodbye:
+      - name: Print GITHUB_OUTPUT path
+        run: echo $GITHUB_OUTPUT
+      - name: Build
+        id: output
+        run: echo "status=${{ inputs.build-status }}" >> $GITHUB_OUTPUT
+  deploy:
     runs-on: ubuntu-latest
-    needs: welcome
+    needs: build
+    if: needs.build.outputs.STATUS == 'success'
     steps:
-      - run: echo "Hello ${{ needs.welcome.outputs.NAME }}"
-      
+      - name: Deploy
+        run: echo "Deploying..."
+  clean-up:
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: ${{ !cancelled() }}
+    steps:
+      - name: Clean up
+        run: echo "Cleaning up..."
