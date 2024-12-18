@@ -1,0 +1,23 @@
+name: 21 - Environments
+
+on:
+  workflow_dispatch:
+    inputs:
+      target-env:
+        type: choice
+        required: true
+        default: 'staging'
+        options:
+          - 'staging'
+          - 'prod'
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target-env }}
+    env:
+      my-env-value: ${{ vars.MY_ENV_VALUE || 'Staging value' }}
+    steps:
+      - name: Echo vars
+        run: |
+          echo "Environment: ${{ env.my-env-value }}"
