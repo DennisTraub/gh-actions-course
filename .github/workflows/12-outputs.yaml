@@ -1,0 +1,19 @@
+name: 12 - Using Outputs
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  welcome:
+    outputs:
+      NAME: ${{ steps.step1.outputs.NAME }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: step1
+        run: echo "NAME=Dennis" >> "$GITHUB_OUTPUT"
+  goodbye:
+    runs-on: ubuntu-latest
+    needs: welcome
+    steps:
+      - run: echo "Hello ${{ needs.welcome.outputs.NAME }}"
+      
