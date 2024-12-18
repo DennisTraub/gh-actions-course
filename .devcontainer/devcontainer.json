@@ -8,11 +8,10 @@
 				"editor.minimap.autohide": true,
 				"editor.minimap.enabled": false,
 				"editor.tabSize": 2,
-				"workbench.colorTheme": "GitHub Dark Colorblind (Beta)"
+				"workbench.colorTheme": "GitHub Dark Default"
 			},
 			"extensions": [
 				"GitHub.copilot",
-				"github.vscode-github-actions",
 				"isudox.vscode-jetbrains-keybindings"
 			]
 		}
