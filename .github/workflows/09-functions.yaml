@@ -18,7 +18,7 @@ jobs:
       - name: On failure
         if: failure()
         run: echo "Previous step failed"
-      - name: Always
+      - name: Always (unless cancelled)
         if: ${{ !cancelled() }}
         run: echo "The workflow wasn't cancelled"
       - name: On cancelled
