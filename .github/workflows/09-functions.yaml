@@ -5,16 +5,37 @@ on:
   workflow_dispatch:
 
 jobs:
-  failure:
+  info:
     runs-on: ubuntu-latest
     steps:
-      - name: Wait 10 seconds
-        run: sleep 10
+      - name: Print PR title
+        run: echo "PR title: ${{ github.event.pull_request.title }}"
+
+      - name: Is a bug fix?
+        if: ${{ !cancelled() && contains(github.event.pull_request.title, 'Fix:') }}
+        run: |
+          echo "This is a bug fix"
+          gh pr edit ${{ github.event.pull_request.number }} --add-label "bug"
+
+      - name: Print PR labels using join()
+        run: |
+          echo "PR labels:"
+          echo ${{ join(github.event.pull_request.labels.*.name, ', ') }}
+      
+      - name: Print PR labels using toJSON()
+        run: |
+          cat << EOF
+          ${{ toJSON(github.event.pull_request.labels) }}
+          EOF
+
+  status-checks:
+    runs-on: ubuntu-latest
+    steps:
       - name: Failing step
         run: exit 1
       - name: On success
         if: success()
-        run: echo "Previious step succeeded"
+        run: echo "Previous step succeeded"
       - name: On failure
         if: failure()
         run: echo "Previous step failed"
