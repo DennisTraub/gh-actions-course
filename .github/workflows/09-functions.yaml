@@ -5,15 +5,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  label-pull-request:
-    name: Add labels to PR
+  on-pull-request:
+    name: On Pull Request
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: ${{ github.event_name == 'pull_request' }}
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
-      - run: |
-          echo "Adding labes to PR: ${{ github.event.pull_request.title }}"
+      - name: Add label 'needs-review'
+        run: |
+          echo "Adding 'needs-review' to PR: ${{ github.event.pull_request.title }}"
           gh pr edit ${{ github.event.pull_request.number }} --add-label "needs-review"
-      - name: Is bug fix?
+      - name: Is this a bug?
         if: contains(github.event.pull_request.title, 'Fix:')
         run: |
           echo "This is a bug fix"
@@ -22,6 +25,7 @@ jobs:
   print-labels:
     name: Print labels
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.labels != null }}
     steps:
       - name: Print PR labels using join()
         run: |
